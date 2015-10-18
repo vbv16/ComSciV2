@@ -23,7 +23,7 @@ function Start (){
 function Update (){
 
     if(increment <= 1 && isMoving == true){
-        increment += speed/100;
+        increment += speed/50;
        // Debug.Log("Moving");
     }
     else {
@@ -84,10 +84,17 @@ function calculateWalk (){
         walkCounter++;
         Debug.Log("TallGrass");
     }
-
+    if(hit.collider.gameObject.tag == "Water"){
+        walkCounter++;
+        Debug.Log("Water");
+    }
+       if(hit.collider.gameObject.tag == "Dungeon"){
+        walkCounter++;
+        Debug.Log("Water");
+    }
 
     if(walkCounter >= walkCounter2){
-        walkCounter2 = Random.Range(5,15);
+        walkCounter2 = Random.Range(5,10);
         walkCounter = 0;
         enterCombat();
     }

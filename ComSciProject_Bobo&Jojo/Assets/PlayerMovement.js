@@ -1,69 +1,77 @@
 ﻿#pragma strict
+/**
+*  @authour Nicholas Trindade
+*  @lastUpdated October 26, 2015
+*  @movementScript
+*  @version 1.0
+**/
 
-var startPoint : Vector3;
-var endPoint : Vector3;
-var speed : float;
-var increment: float;
-var isMoving : boolean;
 
-var animator : Animator;
+var startPoint : Vector3; //Character start point
+var endPoint : Vector3;//Character after-movement point
+var speed : float;//Character speed
+var increment: float;//Character movement size
+var isMoving : boolean;//Character isMoving boolean
 
-//Walking stats
+var animator : Animator;//Calls upon the animator tool on character
+
+//Determiners of the combat chance
 var walkCounter : int;
 var walkCounter2 : int;
 var isInCombat : boolean;
 
-//var teleportLoc : GameObject[];
-
-
-
+//Start function
 function Start (){
 
-    startPoint = transform.position;
-    endPoint = transform.position;
-    walkCounter2 = Random.Range(5,15);
-    animator = GetComponent("Animator");
+    startPoint = transform.position;//Sets the Vector3 start point
+    endPoint = transform.position;//Sets the Vector3 end point
+    walkCounter2 = Random.Range(5,15);//Sets the walkCounter 2
+    animator = GetComponent("Animator");//Sets the anim	ator variable to tool
 }
+//Update function runs while game is running
 function Update (){
-
+	//If increment is less than 1 it will set the increment size
     if(increment <= 1 && isMoving == true){
-        increment += speed/50;
+      	 increment += speed/50;
        // Debug.Log("Moving");
     }
+    //If increment size is larger than one it will set isMoving to false
     else {
         isMoving = false;
        // Debug.Log("Stopped");
-        animator.SetInteger("AnimState",0);
+        animator.SetInteger("AnimState",0);//Set monkey animState to default
     }
-
-    if(isMoving)
-        transform.position = Vector3.Lerp(startPoint, endPoint, increment);
-
-
-    if(!isInCombat){
-    var hit : RaycastHit;
-    var isCollider: boolean = false;
-    var distanceToGround;
-    if(Input.GetKey("w") && isMoving == false){
-    if(Physics.Raycast (transform.position, Vector3.forward, hit));
+	//If the monkey is moving 
+    if(isMoving)	
+        transform.position = Vector3.Lerp(startPoint, endPoint, increment);//Method to move character from startpoint to endpoint during x 
+	
+    if(!isInCombat){ //If is not in combat moving will be possible
+    var hit : RaycastHit;//Creates rayCasting variable
+    var isCollider: boolean = false;//Creates is collide variable
+    var distanceToGround;//Creates distanceToGround variable
+    if(Input.GetKey("w") && isMoving == false){//If movekey is forward and isMoving false let moving occur
+    if(Physics.Raycast (transform.position, Vector3.forward, hit));//Theoretically move the character 1 unit forward
     {
-    		distanceToGround = hit.distance;
+    		distanceToGround = hit.distance; //Calculates the distance of theoretical move to the ground
     	
-       if(hit.collider.gameObject.tag == "Collidable"){
-        	isCollider = true;
+       if(hit.collider.gameObject.tag == "Collidable"){//Checkes to see if character will come in contact with the tag collidable
+        	isCollider = true; //If it comes into contact with a collidbale to true
            Debug.Log("Collidable");
-                   
-        }
+         	}
       }		
+      		//Only allow movement if collidable is false
     		if(isCollider == false){
-            calculateWalk();
-            increment = 0;
-            isMoving = true;
-            startPoint = transform.position;
-            endPoint = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1);
-            animator.SetInteger("AnimState",1);
+            calculateWalk();//Calls a method to check what block will be hit
+            increment = 0;//Sets increment to 0 therefore allowing movement to occur again
+            isMoving = true;//Sets movement to true
+            startPoint = transform.position;//Sets startPoint to initial point
+            endPoint = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1);//Sets endpoint to one unit forward
+            animator.SetInteger("AnimState",1);//Calls upon animation
+            //Note: the start point and endpont are now put into the Lerp function to make char move
         }
        }
+       
+       //Same concept of movement for the rest of the keys
         else if(Input.GetKey("s") && isMoving == false){
        if(Physics.Raycast (transform.position, -Vector3.forward, hit));
     {
@@ -121,62 +129,47 @@ function Update (){
         }}
     }
 }
-
-function tileTag(hit :RaycastHit){
-/*if(hit.collider.gameObject.tag == "NoUse"){
-        	Debug.Log("NoUse");
-        }
-        if(hit.collider.gameObject.tag == "TallGrass"){
-            walkCounter++;
-            Debug.Log("TallGrass");
-        }
-        if(hit.collider.gameObject.tag == "Water"){
-            walkCounter++;
-            Debug.Log("Water");
-        }
-        if(hit.collider.gameObject.tag == "Dungeon"){
-            walkCounter++;
-            Debug.Log("Water");
-        }*/
-}
+//Calculate walkfunction checks to see what block will be hit next
 function calculateWalk (){
-  
-    yield WaitForSeconds(0.3);
-    var hit : RaycastHit;
-    var distanceToGround;
-	if(Physics.Raycast(transform.position, -transform.up, hit,100)){
-	distanceToGround = hit.distance;
-	if(hit.collider.gameObject.tag == "NoUse"){
+    yield WaitForSeconds(0.3);//Waits abit as to allow movement to complete (if it did not they could enter battle or trigger triggers without actually being on the block yet
+    var hit : RaycastHit;//Create rayCast varible
+    var distanceToGround;//Create distanceToGround variable
+	if(Physics.Raycast(transform.position, -transform.up, hit,100)){//Raycast the unit down one block
+	distanceToGround = hit.distance;//Get the distance to ground 
+	//Use the distance to ground to see which tile the character came into contact with
+	if(hit.collider.gameObject.tag == "NoUse"){//If the character is ontop of a tile of NoUse
         	Debug.Log("NoUse");
      }
-       if(hit.collider.gameObject.tag == "TallGrass"){
-            walkCounter++;
+       if(hit.collider.gameObject.tag == "TallGrass"){//If the character is ontop of a tile of TallGrass
+            walkCounter++;//Increase the walk counter
             Debug.Log("TallGrass");
         }
-        if(hit.collider.gameObject.tag == "Water"){
-            walkCounter++;
+        if(hit.collider.gameObject.tag == "Water"){//If the character is ontop of a tile of Water
+            walkCounter++;//Increase the walk counter
             Debug.Log("Water");
         }
-        if(hit.collider.gameObject.tag == "Dungeon"){
-            walkCounter++;
-            Debug.Log("Water");
+        if(hit.collider.gameObject.tag == "Dungeon"){//If the character is ontop of a tile of Dungeon
+            walkCounter++;//Increase the walk counter
+            Debug.Log("Dungeon");
         }
 	}
+	//if the walkcounter is larger than walkcounter2 (Which was randomly generated in the start function) character will enter battle
  if(walkCounter >= walkCounter2){
-        walkCounter2 = Random.Range(5,10);
-        walkCounter = 0;
-        enterCombat();
+        walkCounter2 = Random.Range(5,10);//Create a new walkCoutner2 to add abit of randomness as to when you enter battle
+        walkCounter = 0;//Rest walkcounter
+        enterCombat();//Call the enterCombat function
     }
-  }
+  }//Enters combat
 function enterCombat () {
-    isInCombat = true;
+    isInCombat = true;//Turns combat true (inhibits movement)
     Debug.Log("You have entered COMBAT!");
 }
 
+//Patricks code PLZ COMMENT PATTT
 function OnTriggerEnter (col : Collider) {
     if(col.gameObject.tag == "dungeonEntrance1")
     {
-        Debug.Log("fuckingwork");
+        Debug.Log("Teleport");
         
         calculateWalk();
         increment = 0;

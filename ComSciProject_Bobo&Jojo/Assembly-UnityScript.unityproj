@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\Main.js" />
      <Compile Include="Assets\Monster.js" />
+     <Compile Include="Assets\PauseMenu.js" />
      <Compile Include="Assets\PlayerMovement.js" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
  <Reference Include="UnityEngine.UI">

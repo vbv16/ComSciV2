@@ -1,4 +1,4 @@
-﻿#pragma strict
+#pragma strict
 /**
 *  @authour Nicholas Trindade
 *  @lastUpdated October 26, 2015
@@ -131,7 +131,7 @@ function Update (){
 }
 //Calculate walkfunction checks to see what block will be hit next
 function calculateWalk (){
-    yield WaitForSeconds(0.3);//Waits abit as to allow movement to complete (if it did not they could enter battle or trigger triggers without actually being on the block yet
+    yield WaitForSeconds(0.4);//Waits abit as to allow movement to complete (if it did not they could enter battle or trigger triggers without actually being on the block yet
     var hit : RaycastHit;//Create rayCast varible
     var distanceToGround;//Create distanceToGround variable
 	if(Physics.Raycast(transform.position, -transform.up, hit,100)){//Raycast the unit down one block
@@ -170,19 +170,13 @@ function OnTriggerEnter (col : Collider) {
     if(col.gameObject.tag == "dungeonEntrance1")
     {
         Debug.Log("Teleport");
-        
-        calculateWalk();
-        increment = 0;
-        isMoving = true;
-        startPoint = transform.position;
-        endPoint = new Vector3(transform.position.x + 10,transform.position.y, transform.position.z);
-        /*this.transform.position =  new Vector3(300,100,0);
-  /* this.transform.position = teleportLoc[0].transform.position;
-    this.transform.position.y += 10;*/
+        //var teleportTo: Transform = transform.position.x+10	;
+      startPoint = transform.position;
+      endPoint = new Vector3(transform.position.x+30,transform.position.y, transform.position.z);
+  
 }
     if(col.gameObject.tag == "dungeonExit1")
     {
-        /*this.transform.position = teleportLoc[1].transform.position;
-        this.transform.position.y +=10;*/
+   	
     }
 }

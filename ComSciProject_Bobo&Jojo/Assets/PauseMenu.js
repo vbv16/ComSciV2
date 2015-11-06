@@ -1,31 +1,52 @@
-﻿#pragma strict
-
-var paused : boolean;
-var menu : int;
-
+#pragma strict
+/**
+*  @authour Patrick wong
+*  @lastUpdated October 26, 2015
+*  @mPause menu
+*  @version 1.0
+**/
+var paused : boolean;// determines wheter the state of the game is paused
+var menu : int; // determies the selection of the menu
+//Part of the GUI system
 function OnGUI () {
+
+  if(GUI.Button(Rect(50,255,40,40),"UP"))PlayerMovement.Options = 1 ;
+  if(GUI.Button(Rect(50,300,40,40),"DOWN"))PlayerMovement.Options = 2 ;
+  if(GUI.Button(Rect(5,300,40,40),"LEFT"))PlayerMovement.Options = 3 ;
+  if(GUI.Button(Rect(95,300,40,40),"RIGHT"))PlayerMovement.Options= 4 ;
+  
+  
+
+	if(GUI.Button(Rect(10,10,100,50),"SETTINGS")){
+	paused = !paused;
+	}
+	
 	if(paused){
 		
-		if(GUI.Button(Rect(10,100,100,30),"EQUIPMENT"))	menu =1;
-		if(GUI.Button(Rect(10,130,100,30),"BACKBAG"))	menu =2;
-		if(GUI.Button(Rect(10,160,100,30),"CHARACTER"))	menu =3;
-		if(GUI.Button(Rect(10,190,100,30),"OPTIONS"))	menu =4;
-		if(GUI.Button(Rect(10,220,100,30),"RESUME"))	paused = false;
-		if(GUI.Button(Rect(10,250,100,30),"EXIT GAME"))	Application.Quit();
+		//when pause state is true then it creates the buttons on the side of the screen
+		//each button has been giving a number to corspond its function
+		if(GUI.Button(Rect(10,60,100,30),"EQUIPMENT"))	menu =1;
+		if(GUI.Button(Rect(10,90,100,30),"BACKBAG"))	menu =2;
+		if(GUI.Button(Rect(10,120,100,30),"CHARACTER"))	menu =3;
+		if(GUI.Button(Rect(10,150,100,30),"OPTIONS"))	menu =4;
+		if(GUI.Button(Rect(10,180,100,30),"RESUME"))	paused = false;
+		if(GUI.Button(Rect(10,210,100,30),"EXIT GAME"))	Application.Quit();
 		
-		switch(menu){ //case 0, "default" = no menu selected.
+		switch(menu){ // case 0 = nothing has been selected
+		//each case is found by the value of menu which whas been asigned previously 
 			case 1:
-				GUI.Box(Rect(110, 70, 200, 300),"EQUIPMENT");
+				GUI.Box(Rect(110, 10, 200, 300),"EQUIPMENT");
 				break;
 			case 2:
-				GUI.Box(Rect(110, 70, 200, 300),"BACKBAG");
+				GUI.Box(Rect(110, 10, 200, 300),"BACKBAG");
 				break;
-			case 3:
-				GUI.Box(Rect(110, 70, 200, 300),"CHARACTER");
+		case 3:
+				GUI.Box(Rect(110, 10, 200, 300),"CHARACTER");
 				break;
 			case 4:
-				GUI.Box(Rect(110, 70, 200, 300),"OPTIONS");
+				GUI.Box(Rect(110, 1	0, 200, 300),"OPTIONS");
 				break;
+				
 			default:
 				Debug.Log("No Menu Selected");
 break;
@@ -34,7 +55,14 @@ break;
 }
 
 function Update () {
-	if(Input.GetKeyDown(KeyCode.Escape)){
-		paused = !paused;
+//pauses the state of the game if a key is presseed
+ 
+		if(paused){
+		Time.timeScale = 0;
+	PlayerMovement.speed = 0;
+	}
+	else{
+	Time.timeScale = 1;
+	PlayerMovement.speed = 3;
 	}
 }

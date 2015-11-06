@@ -9,7 +9,7 @@
 
 var startPoint : Vector3; //Character start point
 var endPoint : Vector3;//Character after-movement point
-var speed : float;//Character speed
+static var speed : float;//Character speed
 var increment: float;//Character movement size
 var isMoving : boolean;//Character isMoving boolean
 
@@ -19,6 +19,7 @@ var animator : Animator;//Calls upon the animator tool on character
 var walkCounter : int;
 var walkCounter2 : int;
 var isInCombat : boolean;
+static var Options : int ;
 
 //Start function
 function Start (){
@@ -29,10 +30,10 @@ function Start (){
     animator = GetComponent("Animator");//Sets the anim	ator variable to tool
 }
 //Update function runs while game is running
-function Update (){
-	//If increment is less than 1 it will set the increment size
+function FixedUpdate (){
+		//If increment is less than 1 it will set the increment size
     if(increment <= 1 && isMoving == true){
-      	 increment += speed/50;
+      	 increment += speed/100;
        // Debug.Log("Moving");
     }
     //If increment size is larger than one it will set isMoving to false
@@ -49,7 +50,8 @@ function Update (){
     var hit : RaycastHit;//Creates rayCasting variable
     var isCollider: boolean = false;//Creates is collide variable
     var distanceToGround;//Creates distanceToGround variable
-    if(Input.GetKey("w") && isMoving == false){//If movekey is forward and isMoving false let moving occur
+    if(Input.GetKey("w")|| Options == 1 && isMoving == false){//If movekey is forward and isMoving false let moving occur
+
     if(Physics.Raycast (transform.position, Vector3.forward, hit));//Theoretically move the character 1 unit forward
     {
     		distanceToGround = hit.distance; //Calculates the distance of theoretical move to the ground
@@ -57,6 +59,7 @@ function Update (){
        if(hit.collider.gameObject.tag == "Collidable"){//Checkes to see if character will come in contact with the tag collidable
         	isCollider = true; //If it comes into contact with a collidbale to true
            Debug.Log("Collidable");
+     
          	}
       }		
       		//Only allow movement if collidable is false
@@ -72,7 +75,8 @@ function Update (){
        }
        
        //Same concept of movement for the rest of the keys
-        else if(Input.GetKey("s") && isMoving == false){
+        else if(Input.GetKey("s")|| Options == 2 && isMoving == false){
+      
        if(Physics.Raycast (transform.position, -Vector3.forward, hit));
     {
        		distanceToGround = hit.distance;
@@ -92,7 +96,8 @@ function Update (){
         }
         }
 
-        else if(Input.GetKey("a") && isMoving == false){
+        else if(Input.GetKey("a")|| Options == 3 && isMoving == false){
+    
          if(Physics.Raycast (transform.position, Vector3.left, hit));
     {
     		distanceToGround = hit.distance;
@@ -110,7 +115,8 @@ function Update (){
             animator.SetInteger("AnimState",3);
         }
         }
-        else if(Input.GetKey("d") && isMoving == false){
+        else if(Input.GetKey("d")|| Options == 4 && isMoving == false){
+       
           if(Physics.Raycast (transform.position, Vector3.right, hit));
     {
     		distanceToGround = hit.distance;
@@ -133,6 +139,7 @@ function Update (){
 function calculateWalk (){
     yield WaitForSeconds(0.4);//Waits abit as to allow movement to complete (if it did not they could enter battle or trigger triggers without actually being on the block yet
     var hit : RaycastHit;//Create rayCast varible
+     Options =0;
     var distanceToGround;//Create distanceToGround variable
 	if(Physics.Raycast(transform.position, -transform.up, hit,100)){//Raycast the unit down one block
 	distanceToGround = hit.distance;//Get the distance to ground 
@@ -152,6 +159,7 @@ function calculateWalk (){
             walkCounter++;//Increase the walk counter
             Debug.Log("Dungeon");
         }
+        
 	}
 	//if the walkcounter is larger than walkcounter2 (Which was randomly generated in the start function) character will enter battle
  if(walkCounter >= walkCounter2){
@@ -165,13 +173,16 @@ function enterCombat () {
     Debug.Log("You have entered COMBAT!");
 }
 
-//Patricks code PLZ COMMENT PATTT
+//Patricks code Teleportation
 function OnTriggerEnter (col : Collider) {
+	// checks the tag of the tile to see what telportation it is
     if(col.gameObject.tag == "dungeonEntrance1")
     {
+    //debug 
         Debug.Log("Teleport");
-        //var teleportTo: Transform = transform.position.x+10	;
+      //stores the position of the character
       startPoint = transform.position;
+      // transformt he store position of the character to the set location
       endPoint = new Vector3(transform.position.x+30,transform.position.y, transform.position.z);
   
 }

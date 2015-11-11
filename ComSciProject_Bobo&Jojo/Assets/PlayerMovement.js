@@ -21,16 +21,26 @@ var walkCounter2 : int;
 var isInCombat : boolean;
 static var Options : int ;
 
+//Camera Vars
+var MainCamera: GameObject;
+var CombatCamera: GameObject;
+
+//Called by monster randomizer (in Main script);
+var currentTileTag: String;
+
+//Calls functions in Main Script
+var mainScript: Main;
 //Start function
 function Start (){
 
     startPoint = transform.position;//Sets the Vector3 start point
     endPoint = transform.position;//Sets the Vector3 end point
-    walkCounter2 = Random.Range(5,15);//Sets the walkCounter 2
+    walkCounter2 = Random.Range(7,15);//Sets the walkCounter 2
     animator = GetComponent("Animator");//Sets the anim	ator variable to tool
 }
 //Update function runs while game is running
 function FixedUpdate (){
+	updateCamera();
 		//If increment is less than 1 it will set the increment size
     if(increment <= 1 && isMoving == true){
       	 increment += speed/100;
@@ -43,8 +53,7 @@ function FixedUpdate (){
         animator.SetInteger("AnimState",0);//Set monkey animState to default
     }
 	//If the monkey is moving 
-    if(isMoving)	
-        transform.position = Vector3.Lerp(startPoint, endPoint, increment);//Method to move character from startpoint to endpoint during x 
+    if(isMoving)	    transform.position = Vector3.Lerp(startPoint, endPoint, increment);//Method to move character from startpoint to endpoint during x 
 	
     if(!isInCombat){ //If is not in combat moving will be possible
     var hit : RaycastHit;//Creates rayCasting variable
@@ -97,7 +106,7 @@ function FixedUpdate (){
         }
 
         else if(Input.GetKey("a")|| Options == 3 && isMoving == false){
-    
+    		
          if(Physics.Raycast (transform.position, Vector3.left, hit));
     {
     		distanceToGround = hit.distance;
@@ -137,6 +146,7 @@ function FixedUpdate (){
 }
 //Calculate walkfunction checks to see what block will be hit next
 function calculateWalk (){
+   
     yield WaitForSeconds(0.4);//Waits abit as to allow movement to complete (if it did not they could enter battle or trigger triggers without actually being on the block yet
     var hit : RaycastHit;//Create rayCast varible
      Options =0;
@@ -145,19 +155,23 @@ function calculateWalk (){
 	distanceToGround = hit.distance;//Get the distance to ground 
 	//Use the distance to ground to see which tile the character came into contact with
 	if(hit.collider.gameObject.tag == "NoUse"){//If the character is ontop of a tile of NoUse
+        	currentTileTag = "NoUse";
         	Debug.Log("NoUse");
      }
        if(hit.collider.gameObject.tag == "TallGrass"){//If the character is ontop of a tile of TallGrass
             walkCounter++;//Increase the walk counter
             Debug.Log("TallGrass");
+            currentTileTag = "Tallgrass";
         }
         if(hit.collider.gameObject.tag == "Water"){//If the character is ontop of a tile of Water
             walkCounter++;//Increase the walk counter
             Debug.Log("Water");
+            currentTileTag = "Water";
         }
         if(hit.collider.gameObject.tag == "Dungeon"){//If the character is ontop of a tile of Dungeon
             walkCounter++;//Increase the walk counter
             Debug.Log("Dungeon");
+            currentTileTag = "Dungeon";
         }
         
 	}
@@ -169,10 +183,19 @@ function calculateWalk (){
     }
   }//Enters combat
 function enterCombat () {
-    isInCombat = true;//Turns combat true (inhibits movement)
-    Debug.Log("You have entered COMBAT!");
+	mainScript.randomizeMonster();
+	MainCamera.active = false;
+	CombatCamera.active = true;
+	isInCombat = true;//Turns combat true (inhibits movement)
+	Debug.Log("You have entered COMBAT!");
 }
 
+function updateCamera(){
+if(isInCombat == false){
+	MainCamera.active = true;
+	CombatCamera.active = false;
+	}
+}
 //Patricks code Teleportation
 function OnTriggerEnter (col : Collider) {
 	// checks the tag of the tile to see what telportation it is

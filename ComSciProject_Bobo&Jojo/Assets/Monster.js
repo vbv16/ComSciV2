@@ -12,22 +12,22 @@ class Monster{
     var strength : float;
     var agility : float;
    
-   
+  	var image: Texture2D;
+    
     var baseHealth : float = (strength*10); 
     var currentHealth: float;
-    var baseAttack : float = (intelligence *10);
+  	private  var baseAttack : float = (intelligence *10);
     var currentAttack : float;
-    var dogeRate : float = (agility*0.5);
-
-
+    private var dogeRate : float = (agility*0.5);
+	
+	
     }
-    
-    
+       
     
    enum type{
-    water,
-    land,
-    dungeon,
+    Water,
+    Tallgrass,
+    Dungeon,
 
 
 

@@ -8,12 +8,16 @@ var enemyMonster : Monster;
 //Monster being currently fought
 var monsterEquipped: Monster;
 var PlayerSpells: Spells[];
+var spellBeingCast: Spells;
+
 
 var turn : int;
 var isTurn : boolean = false;
 var showMath: boolean = false;
 var compareAnswer: String;
 
+
+var calculateDamage:CalculateDamage;
 var combatStatus: PlayerMovement; 
 var playerStats: PlayerStats;
 var math: Math;
@@ -77,11 +81,12 @@ else if(compareAnswer != math.operation){
 	}
 }
 
-if(turn==0){
+if(turn==0 && showMath == false){
 		for(var i=0; i<4; i++){	
 		if(GUI.Button(Rect(150,200 + (i*50),100,30),""+ PlayerSpells[i].name)){
 		Debug.Log("used " + PlayerSpells[i].name);
 		showMath = true;	
+		spellBeingCast = PlayerSpells[i];
 					}
 				}
 			}
@@ -92,26 +97,29 @@ function Update () {
 combatStatus = GameObject.Find("Monkey").GetComponent(PlayerMovement); 
 playerStats = GameObject.Find("Monkey").GetComponent(PlayerStats);
 math = gameObject.Find("Main").GetComponent(Math);
+calculateDamage = gameObject.Find("Main").GetComponent(CalculateDamage);
 }
 function playerAttacked(){
 Debug.Log("player Attacked");
 turn =1;
+calculateDamage.calculateDamage(spellBeingCast);
 enemyAttacked();
 }
 function playerMissed(){
 Debug.Log("player Missed");
 turn =1;
+calculateDamage.miss();
 enemyAttacked();
 }
 function enemyAttacked(){
 	yield WaitForSeconds(2);
 	Debug.Log("enemy Attacked");
 	yield WaitForSeconds(2);
-	turn=0; 	
+	turn=0;
+	calculateDamage.calcula	teEnemyAttack();	
 }
 
-function randomizeMonster(){
-	var other: PlayerMovement;
+function randomizeMonster(){s
 	other = gameObject.Find("Monkey").GetComponent(PlayerMovement);
 	var length:int= 0;
 	var tempMonsters: List.<Monster> = new List.<Monster>();	

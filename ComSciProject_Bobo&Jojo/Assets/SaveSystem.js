@@ -1,7 +1,8 @@
 #pragma strict
 
 var player : GameObject;
-
+static var PlayerStats : SaveSystem;
+PlayerStats = gameObject.FindWithTag("Player").GetComponent(SaveSystem);
 
 function Start () {
 

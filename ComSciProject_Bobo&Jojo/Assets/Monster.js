@@ -7,7 +7,6 @@ class Monster{
    
     var baseDef : float;
     var curDef : float;
-    var speed : float;
     var intelligence : float;
     var strength : float;
     var agility : float;
@@ -16,9 +15,9 @@ class Monster{
     
     var baseHealth : float = (strength*10); 
     var currentHealth: float;
-  	private  var baseAttack : float = (intelligence *10);
+  	var baseAttack : float = (intelligence *10);
     var currentAttack : float;
-    private var dogeRate : float = (agility*0.5);
+ 	var dodgeRate : float = (agility*0.5);
 	
 	
     }

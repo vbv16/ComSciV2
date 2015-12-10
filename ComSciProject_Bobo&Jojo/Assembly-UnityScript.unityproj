@@ -46,16 +46,26 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Main.js" />
+     <Compile Include="Assets\Math.js" />
      <Compile Include="Assets\Monster.js" />
      <Compile Include="Assets\PauseMenu.js" />
      <Compile Include="Assets\PlayerMovement.js" />
+     <Compile Include="Assets\PlayerStats.js" />
      <Compile Include="Assets\SaveSystem.js" />
+     <Compile Include="Assets\Spells.js" />
+     <Compile Include="Assets\StartMenu.js" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

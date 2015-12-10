@@ -24,6 +24,7 @@ static var Options : int ;
 //Camera Vars
 var MainCamera: GameObject;
 var CombatCamera: GameObject;
+var MenuCamera: GameObject;
 
 //Called by monster randomizer (in Main script);
 var currentTileTag: String;
@@ -191,10 +192,16 @@ function enterCombat () {
 }
 
 function updateCamera(){
-if(isInCombat == false){
+if(StartMenu.Activation ==false){
+	MainCamera.active = false;
+	CombatCamera.active = false;
+	MenuCamera.active = true;
+}
+else if(isInCombat == false){
 	MainCamera.active = true;
 	CombatCamera.active = false;
 	}
+	
 }
 //Patricks code Teleportation
 function OnTriggerEnter (col : Collider) {

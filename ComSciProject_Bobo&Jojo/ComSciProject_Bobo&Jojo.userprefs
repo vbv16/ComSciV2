@@ -1,12 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\PlayerMovement.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Math.js">
     <Files>
-      <File FileName="Assets\PlayerMovement.js" Line="188" Column="29" />
-      <File FileName="Assets\PauseMenu.js" Line="19" Column="37" />
-      <File FileName="Assets\SaveSystem.js" Line="1" Column="1" />
-      <File FileName="Assets\Monster.js" Line="30" Column="6" />
+      <File FileName="Assets\Math.js" Line="1" Column="1" />
       <File FileName="Assets\Main.js" Line="1" Column="1" />
+      <File FileName="Assets\Monster.js" Line="1" Column="1" />
+      <File FileName="Assets\PlayerStats.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

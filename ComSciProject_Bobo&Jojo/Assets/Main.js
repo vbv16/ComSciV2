@@ -3,25 +3,32 @@ import System.Collections.Generic;
 
 //All monsters
 var allMonsters : Monster[];
-//Monster we encountered
+//Instance of monster in combat
 var enemyMonster : Monster;
-//Monster being currently fought
-var monsterEquipped: Monster;
+
+//All spells
 var PlayerSpells: Spells[];
+//Instance of spell being cast in battle
 var spellBeingCast: Spells;
 
+var items: Item[];
 
+var itemsEquipped: Item[];
+
+//Turn value, to indicate whose turn it is
 var turn : int;
+//Value to indicate it is players turn
 var isTurn : boolean = false;
+//Value to indicate that math equation is to be shown
 var showMath: boolean = false;
+//Value to compare answer used by user to real answer
 var compareAnswer: String;
 
-
+//Allows use of other classes
 var calculateDamage:CalculateDamage;
-var combatStatus: PlayerMovement; 
+var playerMovement: PlayerMovement; 
 var playerStats: PlayerStats;
 var math: Math;
-
 
 function Start () {
 compareAnswer = "null";
@@ -29,7 +36,7 @@ compareAnswer = "null";
 function OnGUI() {
 if(StartMenu.Activation == true){
 
-if(combatStatus.isInCombat == true){ 
+if(playerMovement.isInCombat == true){ 
 
 
 GUI.Label(Rect(50,60,200,100),"Name:" + "Bobo");
@@ -94,7 +101,7 @@ if(turn==0 && showMath == false){
 	}
 }
 function Update () {
-combatStatus = GameObject.Find("Monkey").GetComponent(PlayerMovement); 
+playerMovement = GameObject.Find("Monkey").GetComponent(PlayerMovement); 
 playerStats = GameObject.Find("Monkey").GetComponent(PlayerStats);
 math = gameObject.Find("Main").GetComponent(Math);
 calculateDamage = gameObject.Find("Main").GetComponent(CalculateDamage);
@@ -116,19 +123,18 @@ function enemyAttacked(){
 	Debug.Log("enemy Attacked");
 	yield WaitForSeconds(2);
 	turn=0;
-	calculateDamage.calcula	teEnemyAttack();	
+	calculateDamage.calculateEnemyAttack();	
 }
 
-function randomizeMonster(){s
-	other = gameObject.Find("Monkey").GetComponent(PlayerMovement);
+function randomizeMonster(){
 	var length:int= 0;
 	var tempMonsters: List.<Monster> = new List.<Monster>();	
 	
 	
 		for(var i = 0; i<allMonsters.Length; i++){
 		var tempString:String = allMonsters[i].type.ToString();
-		Debug.Log(tempString + other.currentTileTag);
-		if(tempString == other.currentTileTag){
+		Debug.Log(tempString + playerMovement.currentTileTag);
+		if(tempString == playerMovement.currentTileTag){
 			tempMonsters.Add(allMonsters[i]);
 			//Debug.Log("Truth");
 			Debug.Log(tempMonsters[length].name);

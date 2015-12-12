@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\CalculateDamage.js" />
+     <Compile Include="Assets\Item.js" />
      <Compile Include="Assets\Main.js" />
      <Compile Include="Assets\Math.js" />
      <Compile Include="Assets\Monster.js" />
